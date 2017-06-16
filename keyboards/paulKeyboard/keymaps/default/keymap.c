@@ -34,11 +34,11 @@ MO(FN_LAYER),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    
   KC_TILD, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F16,  KC_F17,  KC_F18,  KC_F19, \
    KC_BSPC,  KC_SLCK, KC_PAUS, LCTL(KC_UP), _______, _______, _______, _______, _______, _______, _______,    M(0),   M(1),    KC_GRV, \
     _______,   KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, _______, _______, _______, _______, M(2),    KC_PENT, _______, \
-    KC_CAPS,     KC_MRWD, KC_MPLY, KC_MFFD, _______, _______, _______, _______, _______,    M(3), _______,   KC_PGUP,    _______, \
+    KC_CAPS,     KC_MRWD, KC_MPLY, KC_MFFD, _______, _______,     M(4), _______, _______,    M(3), _______,   KC_PGUP,    _______, \
       _______,  _______,  _______, _______,     _______, _______,                        _______,   KC_HOME, KC_PGDN,  KC_END  \
 ),
 [FLIP_LAYER] = KEYMAP(
-  KC_MINS,    KC_0,    KC_9,    KC_8,    KC_7,    KC_6,  KC_EQL, _______, KC_NLCK, KC_PEQL, KC_PSLS, KC_PAST, _______, _______, _______, \
+  KC_MINS,    KC_0,    KC_9,    KC_8,    KC_7,    KC_6,  KC_EQL, _______, KC_NLCK, KC_PEQL, KC_PSLS, KC_PAST, _______, _______,   RESET, \
    KC_BSPC,     KC_P,    KC_O,    KC_I,    KC_U,    KC_Y, _______, _______,   KC_P7,  KC_P8,  KC_P9,  KC_PMNS, _______,   _______, \
      KC_ENT,   KC_SCLN,    KC_L,    KC_K,    KC_J,    KC_H, KC_QUOT, _______,   KC_P4,  KC_P5,  KC_P6, KC_PPLS,    _______, _______, \
   OSM(MOD_LSFT),  KC_SLSH, KC_DOT, KC_COMM,    KC_M,    KC_N, _______, _______,    KC_P1,  KC_P2,  KC_P3,   KC_PENT,    _______, \
@@ -54,31 +54,37 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
   // MACRODOWN only works in this function
       switch(id) {
-        case 0:
+        case 0: // block comment  / *
           if (record->event.pressed) {
           } else {
             return MACRO( T(SLSH), D(LSFT), T(8), U(LSFT),  END);
           }
           break;
 
-        case 1:
+        case 1: // block comment  * /
           if (record->event.pressed) {
           } else {
             return MACRO(  D(LSFT), T(8), U(LSFT), T(SLSH),  END);
           }
           break;
 
-        case 2:
+        case 2: // @"%@"
           if (record->event.pressed) {
           } else {
             return MACRO( D(LSFT), T(2), T(QUOT), T(5), T(2), T(QUOT), U(LSFT),  END);
           }
           break;
 
-        case 3:
+        case 3: // ->
           if (record->event.pressed) {
           } else {
             return MACRO( T(MINS), D(LSFT), T(DOT), U(LSFT),  END);
+          }
+          break;
+	case 4: // NSString*
+          if (record->event.pressed) {
+          } else {
+            return MACRO( D(LSFT), T(N), T(S), T(S), U(LSFT), T(T),T(R),T(I),T(N),T(G), D(LSFT), T(8), U(LSFT),  END);
           }
           break;
       }

@@ -32,8 +32,8 @@ MO(FN_LAYER),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    
 ),
 [FN_LAYER] = KEYMAP(
   KC_TILD, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F16,  KC_F17,  KC_F18,  KC_F19, \
-   KC_BSPC,  KC_SLCK, KC_PAUS, LCTL(KC_UP), _______, _______, _______, _______, _______, _______, _______,    M(0),   M(1),    KC_GRV, \
-    _______,   KC_MUTE, KC_VOLD, KC_VOLU, _______, _______, _______, _______, _______, _______, _______, M(2),    KC_PENT, _______, \
+   KC_BSPC,  KC_SLCK, KC_PAUS, LCTL(KC_UP), LGUI(KC_TILD), _______, _______, _______, _______, _______, _______,    M(0),   M(1),    KC_GRV, \
+    _______,   KC_MUTE, KC_VOLD, KC_VOLU, LGUI(KC_TAB), _______, _______, _______, _______, _______, _______, M(2),    KC_PENT, _______, \
     KC_CAPS,     KC_MRWD, KC_MPLY, KC_MFFD, _______, _______,     M(4), _______, _______,    M(3), _______,   KC_PGUP,    _______, \
       _______,  _______,  _______, _______,     _______, _______,                        _______,   KC_HOME, KC_PGDN,  KC_END  \
 ),

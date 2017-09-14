@@ -1,7 +1,6 @@
 #include "clueboard.h"
 
 // Helpful defines
-#define GRAVE_MODS  (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT)|MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI)|MOD_BIT(KC_LALT)|MOD_BIT(KC_RALT))
 #define _______ KC_TRNS
 #define xxxxxxx KC_NO
 
@@ -21,64 +20,90 @@
   #define TO_MIDI _______
 #endif
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /* Keymap _BL: Base Layer (Default Layer)
-   */
-  [_BL] = KEYMAP(
-    F(0),    KC_1,    KC_2,   KC_3,   KC_4,   KC_5,   KC_6,   KC_7,   KC_8,   KC_9,    KC_0,     KC_MINS,  KC_EQL,   _______, KC_BSPC,          KC_INS, \
-    KC_TAB,  KC_Q,    KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,   KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,                   KC_DEL, \
-    MO(_FL), KC_A,    KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,   KC_L,    KC_SCLN,  KC_QUOT,  KC_NUHS,  KC_ENT,                            \
-    KC_LSFT, KC_NUBS, KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,   KC_SLSH,  _______,  KC_RSFT,          KC_UP,           \
-    KC_LCTL, KC_LGUI, KC_LALT, _______,          LT(_ML, KC_SPC),LT(_ML, KC_SPC),      _______,  KC_RALT,  MO(_ME),  MO(_FL), KC_LEFT, KC_DOWN, KC_RGHT),
+// go back to base layer
+#define TO_BASE TO(_BL)
 
-  /* Keymap _FL: Function Layer */
+// switch to function layer while helde
+#define MO_FUNC MO(_FL)
+
+// switch to media layer  while held
+#define   MEDIA MO(_ME)
+
+// switch to Control layer while helde
+#define  MO_CTL MO(_CL)
+
+// switch to mouse layer if held, else space
+#define L_MOUSE LT(_ML, KC_SPC)
+
+// Function key when held, else ESC
+#define ESC_FUN LT(_FL, KC_ESC)
+
+// Hyper (CTRL+ALT+SHIFT+SUPER) when held, TAB when tapped
+#define HPR_TAB ALL_T(KC_TAB)
+
+// CTRL when held, ESC when tapped
+#define CTL_ESC CTL_T(KC_ESC)
+
+// Reset RGB mode to layer signalling
+#define RGB_RST F(0)
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  /* Keymap _BL: Base Layer (Default Layer) */
+  [_BL] = KEYMAP(
+    KC_GESC,    KC_1,    KC_2,   KC_3,     KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,     KC_0, KC_MINS,   KC_EQL, _______, KC_BSPC,          KC_INS,  \
+    HPR_TAB,    KC_Q,    KC_W,   KC_E,     KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,     KC_P, KC_LBRC,  KC_RBRC, KC_BSLS,                   KC_DEL,  \
+    ESC_FUN,    KC_A,    KC_S,   KC_D,     KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, KC_QUOT,  KC_NUHS,  KC_ENT,                            \
+    KC_LSFT, KC_NUBS,    KC_Z,   KC_X,     KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,   KC_DOT, KC_SLSH,  _______, KC_RSFT,          KC_UP,            \
+    KC_LCTL, KC_LGUI, KC_LALT,_______,                    L_MOUSE, L_MOUSE,                    _______, KC_RALT,  KC_RCTL, MO_FUNC, KC_LEFT, KC_DOWN, KC_RGHT),
+
+  /* Keymap _FL: Function layer */
   [_FL] = KEYMAP(
-    KC_GRV,  KC_F1,   KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,   KC_F10,   KC_F11,   KC_F12,   _______, _______,          BL_STEP, \
-    _______, _______, _______,_______,_______,_______,_______,_______,KC_PSCR,_______, KC_PAUS,  _______,  _______,  _______,                   _______, \
-    MO(_FL), _______, MO(_CL),_______,_______,_______,KC_LEFT,KC_DOWN,  KC_UP,KC_RGHT, _______,  _______,  _______,  _______,                            \
-    _______, _______, _______,_______,_______,_______,_______,_______,MO(_ME),_______, _______,  TO_MIDI,  _______,  _______,          KC_PGUP,          \
-    _______, _______, _______,_______,        _______,_______,                         _______,  _______,  _______,  MO(_FL), KC_HOME, KC_PGDN, KC_END),
+     KC_GRV,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12, _______, _______,          BL_STEP, \
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, _______,  KC_PAUS, _______,  _______, _______,                   _______, \
+    _______, _______,  MO_CTL, _______, _______, _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  _______, _______,  _______, _______,                            \
+    KC_LSPO, _______, _______, _______, _______, _______, _______, _______,   MEDIA, _______,  _______, TO_MIDI,  _______, KC_RSPC,          KC_PGUP,          \
+    _______, _______, _______, _______,                   _______, _______,                    _______, _______,  _______, MO_FUNC, KC_HOME, KC_PGDN, KC_END),
 
   /* Keymap _ME: Media layer */
   [_ME] = KEYMAP(
-    _______, _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______, KC_MUTE,         KC_VOLU, \
-    _______, _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______,                  KC_VOLD, \
-    _______, _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______,                           \
-    MO(_FL), _______, _______,_______,_______,_______,_______,_______,MO(_ME),_______, _______,  _______,  _______,  MO(_FL),          _______,         \
-    _______, _______, _______,_______,                _______,_______,                 _______,  _______,  _______,  _______, KC_MPRV, KC_MPLY,KC_MNXT),
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______, KC_MUTE,          KC_VOLU, \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______,                   KC_VOLD, \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______,                            \
+    _______, _______, _______, _______, _______, _______, _______, _______,   MEDIA, _______,  _______, _______,  _______, _______,          _______,          \
+    _______, _______, _______, _______,                   _______, _______,                    _______, _______,  _______, _______, KC_MPRV, KC_MPLY, KC_MNXT),
 
   /* Keymap _CL: Control layer */
   [_CL] = KEYMAP(
-    _______,    F(1), _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______, RGB_TOG,          RGB_VAI, \
-    _______, _______, _______,_______,RESET,  _______,_______,_______,_______,_______, _______,  _______,  _______,  _______,                   RGB_VAD, \
-    _______, _______, MO(_CL),_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______,                            \
-    MO(_FL), _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  MO(_FL),          RGB_SAI,          \
-    _______, _______, _______,_______,        RGB_MOD,RGB_MOD,                         _______,  _______,  _______,  _______, RGB_HUD, RGB_SAD, RGB_HUI),
+    _______, RGB_RST, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______, RGB_TOG,          RGB_VAI, \
+    _______, _______, _______, _______, RESET,   _______, _______, _______, _______, _______,  _______, _______,  _______, _______,                   RGB_VAD, \
+    _______, _______,  MO_CTL, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______,                            \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______,          RGB_SAI,          \
+    _______, _______, _______, _______,                   RGB_MOD, RGB_MOD,                    _______, _______,  _______, _______, RGB_HUD, RGB_SAD, RGB_HUI),
 
   /* Keymap _ML: Mouse layer */
   [_ML] = KEYMAP(
-    _______, _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______, _______,         _______, \
-    _______, _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______,                  _______, \
-    _______, _______, KC_BTN3,KC_BTN2,KC_BTN1,_______,KC_MS_L,KC_MS_D,KC_MS_U,KC_MS_R, _______,  _______,  _______,  _______,                           \
-    _______, _______, _______,_______,_______,_______,_______,_______,_______,_______, _______,  _______,  _______,  _______,          KC_MS_U,         \
-    _______, _______, _______,_______,        LT(_ML, KC_SPC),LT(_ML, KC_SPC),         _______,  KC_BTN1,  KC_BTN2,  KC_BTN3, KC_MS_L, KC_MS_D,KC_MS_R),
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______, _______,          _______, \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______,                   _______, \
+    _______, _______, KC_BTN2, KC_BTN3, KC_BTN1, _______, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,  _______, _______,  _______, _______,                            \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______, _______,          KC_MS_U,          \
+    _______, _______, _______, _______,                   L_MOUSE, L_MOUSE,                    _______, KC_BTN1,  KC_BTN3, KC_BTN2, KC_MS_L, KC_MS_D, KC_MS_R),
 
 #if defined(MIDI_ENABLE) && defined(MIDI_ADVANCED)
   /* Keymap _MI: MIDI layer (Advanced)*/
   [_MI] = KEYMAP(
-    TO(_BL),MI_VEL_1,MI_VEL_2,MI_VEL_3,MI_VEL_4,MI_VEL_5,MI_VEL_6,MI_VEL_7,MI_VEL_8,MI_VEL_9,MI_VEL_10,  MI_CHD,   MI_CHU,  xxxxxxx, xxxxxxx,         xxxxxxx, \
-    xxxxxxx, xxxxxxx,   MI_Cs,   MI_Ds, xxxxxxx,   MI_Fs,   MI_Gs,   MI_As, xxxxxxx, MI_Cs_1,  MI_Ds_1, xxxxxxx,  MI_Fs_1,  xxxxxxx,                  xxxxxxx, \
-     MI_MOD,    MI_C,    MI_D,    MI_E,    MI_F,    MI_G,    MI_A,    MI_B,  MI_C_1,  MI_D_1,   MI_E_1,  MI_F_1,   MI_G_1,  xxxxxxx,                           \
-     MI_SUS, xxxxxxx, MI_OCTD, MI_OCTU,MI_MODSD,MI_MODSU, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, MI_TRNSD,MI_TRNSU,MI_TRNS_0,   MI_SUS,          xxxxxxx,         \
-    xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx,                 MI_ALLOFF,MI_ALLOFF,                    xxxxxxx, xxxxxxx,  xxxxxxx,  xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx),
+    TO_BASE,MI_VEL_1,MI_VEL_2,MI_VEL_3,MI_VEL_4,MI_VEL_5,MI_VEL_6,MI_VEL_7,MI_VEL_8,MI_VEL_9,MI_VEL_10,  MI_CHD,   MI_CHU, xxxxxxx, xxxxxxx,          xxxxxxx, \
+    xxxxxxx, xxxxxxx,   MI_Cs,   MI_Ds, xxxxxxx,   MI_Fs,   MI_Gs,   MI_As, xxxxxxx, MI_Cs_1,  MI_Ds_1, xxxxxxx,  MI_Fs_1, xxxxxxx,                   xxxxxxx, \
+     MI_MOD,    MI_C,    MI_D,    MI_E,    MI_F,    MI_G,    MI_A,    MI_B,  MI_C_1,  MI_D_1,   MI_E_1,  MI_F_1,   MI_G_1, xxxxxxx,                            \
+     MI_SUS, xxxxxxx, MI_OCTD, MI_OCTU,MI_MODSD,MI_MODSU, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, MI_TRNSD,MI_TRNSU,MI_TRNS_0,  MI_SUS,          xxxxxxx,          \
+    xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx,                 MI_ALLOFF, MI_ALLOFF,                   xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx),
 #elif defined(MIDI_ENABLE) && defined(MIDI_BASIC)
   /* Keymap _MI: MIDI layer (Basic)*/
   [_MI] = KEYMAP(
-    TO(_BL), xxxxxxx, xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx, xxxxxxx,  xxxxxxx,  xxxxxxx,  xxxxxxx, xxxxxxx,         xxxxxxx, \
-    xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx, xxxxxxx,  xxxxxxx,  xxxxxxx,  xxxxxxx,                  xxxxxxx, \
-    xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx, xxxxxxx,  xxxxxxx,  xxxxxxx,  xxxxxxx,                           \
-    xxxxxxx, xxxxxxx,   MI_ON, MI_OFF,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx,xxxxxxx, xxxxxxx,  xxxxxxx,  xxxxxxx,  xxxxxxx,          xxxxxxx,         \
-    xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx,                xxxxxxx,xxxxxxx,                 xxxxxxx,  xxxxxxx,  xxxxxxx,  xxxxxxx, xxxxxxx, xxxxxxx,xxxxxxx),
+    TO_BASE, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx, xxxxxxx,          xxxxxxx, \
+    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,                   xxxxxxx, \
+    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,                            \
+    xxxxxxx, xxxxxxx,   MI_ON,  MI_OFF, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,          xxxxxxx,          \
+    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,                   xxxxxxx, xxxxxxx,                    xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx),
 #endif
 };
 
@@ -87,45 +112,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 const uint16_t PROGMEM fn_actions[] = {
   [0] = ACTION_FUNCTION(0),  // Calls action_function()
-  [1] = ACTION_FUNCTION(1),  // Calls action_function()
 };
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
-  static uint8_t mods_pressed;
-  static bool mod_flag;
-
   switch (id) {
     case 0:
-      /* Handle the combined Grave/Esc key
-       */
-      mods_pressed = get_mods()&GRAVE_MODS; // Check to see what mods are pressed
-
       if (record->event.pressed) {
-        /* The key is being pressed.
-         */
-        if (mods_pressed) {
-          mod_flag = true;
-          add_key(KC_GRV);
-          send_keyboard_report();
-        } else {
-          add_key(KC_ESC);
-          send_keyboard_report();
-        }
-      } else {
-        /* The key is being released.
-         */
-        if (mod_flag) {
-          mod_flag = false;
-          del_key(KC_GRV);
-          send_keyboard_report();
-        } else {
-          del_key(KC_ESC);
-          send_keyboard_report();
-        }
+        rgblight_mode(1);
+        rgblight_sethsv(206, 255, 255);
       }
-      break;
-    case 1:
-      rgblight_mode(1);
   }
 }
 
@@ -143,7 +138,7 @@ enum layer_id {
 void clueboard_set_led(uint8_t id, uint8_t val) {
   switch (id) {
     case LAYER_BASE:
-      rgblight_sethsv_noeeprom(346, 0, val);
+      rgblight_sethsv_noeeprom(0, 0, val);
       break;
     case LAYER_FUNCTION:
       rgblight_sethsv_noeeprom(46, 255, val);
@@ -165,6 +160,47 @@ void clueboard_set_led(uint8_t id, uint8_t val) {
   }
 };
 
+const uint16_t oct_hues[10] = {
+  0,
+  30,
+  60,
+  90,
+  120,
+  150,
+  180,
+  210,
+  240,
+  300
+};
+
+#define MAX_OCT  9
+
+void clueboard_set_midi_led(uint8_t base_oct, uint8_t val)
+{
+  uint8_t sat = 255;
+
+  for (uint8_t i = 0; i < RGBLED_NUM; i++) {
+    sethsv(oct_hues[base_oct], sat, val, (LED_TYPE *)&led[i]);
+  }
+
+  uint8_t next_oct = base_oct < MAX_OCT ? base_oct + 1 : base_oct;
+
+  uint16_t next_hue = base_oct < MAX_OCT ? oct_hues[next_oct] : 0;
+  uint8_t next_val = base_oct < MAX_OCT ? val : 0;
+  uint8_t next_sat = base_oct < MAX_OCT ? sat : 0;
+
+
+  for (uint8_t i = 0; i < 3; i++) {
+    sethsv(next_hue, next_sat, next_val, (LED_TYPE *)&led[i]);
+  }
+
+  for (uint8_t i = 11; i < 14; i++) {
+    sethsv(next_hue, next_sat, next_val, (LED_TYPE *)&led[i]);
+  }
+
+  rgblight_set();
+}
+
 void matrix_scan_user(void) {
     rgblight_config_t rgblight_config;
     rgblight_config.raw = eeconfig_read_rgblight();
@@ -183,10 +219,10 @@ void matrix_scan_user(void) {
         clueboard_set_led(LAYER_FUNCTION, val);
       }
     } else if (layer & (1<<_ML)) {
-        clueboard_set_led(LAYER_MOUSE, val);
+      clueboard_set_led(LAYER_MOUSE, val);
 #if defined(MIDI_ENABLE)
     } else if (layer & (1<<_MI)) {
-        clueboard_set_led(LAYER_MIDI, val);
+      clueboard_set_midi_led(midi_config.octave, val);
 #endif
     } else {
         clueboard_set_led(LAYER_BASE, val);

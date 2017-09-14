@@ -26,4 +26,15 @@
 /* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
 #define MIDI_TONE_KEYCODE_OCTAVES 2
 
+/*
+  Setting the modified Space Cadet Parens for German layout
+
+  Default is
+  #define LSPO_KEY KC_9
+  #define RSPC_KEY KC_0
+*/
+#define LSPO_KEY KC_8
+#define RSPC_KEY KC_9
+#define PERMISSIVE_HOLD
+
 #endif

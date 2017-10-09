@@ -45,13 +45,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [1] = KEYMAP( /* First Layer */
-  TG(2),   _______, _______, Z_STCMT, Z_ENCMT, \
+  TO(2),   _______, _______, Z_STCMT, Z_ENCMT, \
   _______, _______, _______, Z_NSLOG, Z_ATQOT,   \
-  _______, _______, Z_NSSTR, _______, Z_ARROW  \
+  RESET, _______, Z_NSSTR, _______, Z_ARROW  \
 ),
 
 [2] = KEYMAP( /* First Layer */
-  _______, KC_NO, KC_P7, KC_P8, KC_P9, \
+  TO(0), KC_NO, KC_P7, KC_P8, KC_P9, \
   TD(TD_PL_MN), TD(TD_MU_DV), KC_P4, KC_P5, KC_P6,   \
   KC_PDOT, KC_P0, KC_P1, KC_P2, KC_P3  \
 ),
@@ -74,22 +74,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
       case Z_NSSTR:
         SEND_STRING("NSString*");
-        return false; break;
+        return true; break;
       case Z_NSLOG:
         SEND_STRING("NSLog(@\"\");"SS_TAP(X_LEFT)SS_TAP(X_LEFT)SS_TAP(X_LEFT));
-        return false; break;
+        return true; break;
       case Z_ATQOT:
         SEND_STRING("@\"%%@\",");
-        return false; break;
+        return true; break;
       case Z_ARROW:
         SEND_STRING("->");
-        return false; break;
+        return true; break;
       case Z_STCMT:
         SEND_STRING("/*");
-        return false; break;
+        return true; break;
       case Z_ENCMT:
         SEND_STRING("*/");
-        return false; break;
+        return true; break;
     }
   }
   return true;

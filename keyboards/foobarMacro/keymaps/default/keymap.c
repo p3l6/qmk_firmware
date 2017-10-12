@@ -40,19 +40,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [0] = KEYMAP( /* Base */
   TD(TD_BRKPNT),    KC_F16,    KC_F17,    KC_F18,    KC_F19, \
-  TD(TD_RN_STP),    KC_NO,    OSL(1),  LGUI(LSFT(KC_LBRC)),    LGUI(LSFT(KC_RBRC)),   \
+  TD(TD_RN_STP),    TG(2),    OSL(1),  LGUI(LSFT(KC_LBRC)),    LGUI(LSFT(KC_RBRC)),   \
   TD(TD_EXPOSE),    KC_NO,    TD(TD_CV),    LCTL(KC_LEFT),    LCTL(KC_RGHT)   \
 ),
 
 [1] = KEYMAP( /* First Layer */
-  TO(2),   _______, _______, Z_STCMT, Z_ENCMT, \
+  _______,   _______, _______, Z_STCMT, Z_ENCMT, \
   _______, _______, _______, Z_NSLOG, Z_ATQOT,   \
   RESET, _______, Z_NSSTR, _______, Z_ARROW  \
 ),
 
 [2] = KEYMAP( /* First Layer */
-  TO(0), KC_NO, KC_P7, KC_P8, KC_P9, \
-  TD(TD_PL_MN), TD(TD_MU_DV), KC_P4, KC_P5, KC_P6,   \
+  TD(TD_MU_DV), KC_NO, KC_P7, KC_P8, KC_P9, \
+  TD(TD_PL_MN),_______ , KC_P4, KC_P5, KC_P6,   \
   KC_PDOT, KC_P0, KC_P1, KC_P2, KC_P3  \
 ),
 

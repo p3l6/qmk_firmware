@@ -42,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [1] = KEYMAP( /* First Layer */
   _______, Z_X,     KC_M,    _______, KC_B,    \
   MO(2),   S(KC_J), KC_K,    KC_Y,    KC_U, \
-  KC_O,    KC_ESC,  RESET,   _______, KC_NO  \
+  KC_O,    RESET,   _______, KC_ESC,  KC_NO  \
 ),
 
 [2] = KEYMAP( /* First Layer */

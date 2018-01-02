@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [2] = KEYMAP( /* First Layer */
-  TD(TD_MU_DV), KC_NO, KC_P7, KC_P8, KC_P9, \
+  TD(TD_MU_DV), KC_BSPC, KC_P7, KC_P8, KC_P9, \
   TD(TD_PL_MN),_______ , KC_P4, KC_P5, KC_P6,   \
   KC_PDOT, KC_P0, KC_P1, KC_P2, KC_P3  \
 ),

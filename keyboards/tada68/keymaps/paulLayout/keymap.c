@@ -72,7 +72,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("NSLog(@\"\");"SS_TAP(X_LEFT)SS_TAP(X_LEFT)SS_TAP(X_LEFT));
         return false; break;
       case Z_ATQOT:
-        SEND_STRING("@\"%%@\",");
+        SEND_STRING("@\"%@\",");
         return false; break;
       case Z_ARROW:
         SEND_STRING("->");

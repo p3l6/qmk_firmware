@@ -16,6 +16,7 @@ enum custom_keycodes {
     Z_STCMT,
     Z_ENCMT,
     Z_SFRMT,
+    Z_PARAM,
 };
 
 #define _______ KC_TRNS
@@ -32,9 +33,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_FL] = KEYMAP_ANSI(
   KC_ESC, KC_F1 ,KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,    _______,         KC_HOME ,  \
   KC_BSPC,KC_SLCK, KC_PAUS,LCTL(KC_UP),_______,BL_TOGG,BL_DEC,BL_INC,_______,_______,_______,Z_STCMT,Z_ENCMT, Z_SFRMT, KC_END, \
-  _______,KC_MUTE, KC_VOLD, KC_VOLU, _______,_______,_______,_______,_______,Z_NSLOG,_______, Z_ATQOT,    KC_PENT,    _______, \
+  _______,KC_MUTE, KC_VOLD, KC_VOLU, _______,_______,_______,_______,_______,Z_NSLOG,Z_PARAM, Z_ATQOT,    KC_PENT,    _______, \
   KC_CAPS,KC_MRWD, KC_MPLY, KC_MFFD, _______,_______,Z_NSSTR,_______,_______,Z_ARROW,_______,         KC_BTN1,KC_MS_U,KC_BTN2, \
-  _______,_______, LCTL(LALT(KC_DOWN)),                  KC_ENT,       KC_NO,  KC_NO,  KC_NO,         KC_MS_L,KC_MS_D,KC_MS_R),
+  _______,_______, LCTL(LALT(KC_DOWN)),                  KC_ENT,     _______,  KC_NO,  KC_NO,         KC_MS_L,KC_MS_D,KC_MS_R),
 
 [_NL] = KEYMAP_ANSI(
   _______,_______,_______,_______,_______,_______,_______,KC_PSLS,KC_PAST,KC_PMNS,_______,_______,_______,_______    ,_______,  \
@@ -69,6 +70,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false; break;
       case Z_SFRMT:
         SEND_STRING("\\()"SS_TAP(X_LEFT));
+        return false; break;
+      case Z_PARAM:
+        SEND_STRING(":()"SS_TAP(X_LEFT));
         return false; break;
     }
   }

@@ -20,10 +20,10 @@
 enum custom_keycodes {
     Z_X = SAFE_RANGE,
 
-    Z_HA, Z_1A, Z_2A,
-    Z_HS, Z_1S, Z_2S,
-    Z_HD, Z_1D, Z_2D,
-    Z_HF, Z_1F, Z_2F, Z_3F,
+    Z_S_A, Z_M_A, Z_L_A,
+    Z_S_S, Z_M_S, Z_L_S,
+    Z_S_D, Z_M_D, Z_L_D,
+    Z_S_F, Z_M_F, Z_L_F,
 };
 
 enum tap_dance_declarations {
@@ -42,13 +42,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [1] = KEYMAP( /* First Layer */
   _______, Z_X,     KC_M,    _______, KC_B,    \
   MO(2),   S(KC_J), KC_K,    KC_Y,    KC_U, \
-  KC_O,    RESET,   _______, KC_ESC,  KC_NO  \
+  KC_O,    RESET,   KC_ENT,  KC_ESC,  KC_NO  \
 ),
 
 [2] = KEYMAP( /* First Layer */
-  _______, Z_HA,  Z_HS,  Z_HD,  Z_1F,    \
-  MO(2),   Z_1A,  Z_1S,  Z_1D,  Z_2F, \
-  Z_3F,    Z_2A,  Z_2S,  Z_2D,  KC_NO  \
+  _______, Z_S_A,  Z_S_S,  Z_S_D,  Z_S_F,    \
+  MO(2),   Z_M_A,  Z_M_S,  Z_M_D,  Z_M_F, \
+  Z_L_F,    Z_L_A,  Z_L_S,  Z_L_D,  KC_NO  \
 ),
 
 };
@@ -71,6 +71,10 @@ static struct _Rep {
   } timer;
 } Rep;
 
+#define D_SHRT 3000  // 3s
+#define D_MEDM 10000 // 10s
+#define D_LONG 30000 // 30s
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // See https://docs.qmk.fm/macros.html
   if (record->event.pressed) {
@@ -80,22 +84,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         Rep.timer.a = Rep.timer.s = Rep.timer.d = Rep.timer.f = 0;
         return false; break;
 
-      case Z_HA: Rep.delay.a = 500;  Rep.timer.a = timer_read(); return false; break;
-      case Z_1A: Rep.delay.a = 1000; Rep.timer.a = timer_read(); return false; break;
-      case Z_2A: Rep.delay.a = 2000; Rep.timer.a = timer_read(); return false; break;
+      case Z_S_A: Rep.delay.a = D_SHRT; Rep.timer.a = timer_read(); return false; break;
+      case Z_M_A: Rep.delay.a = D_MEDM; Rep.timer.a = timer_read(); return false; break;
+      case Z_L_A: Rep.delay.a = D_LONG; Rep.timer.a = timer_read(); return false; break;
 
-      case Z_HS: Rep.delay.s = 500;  Rep.timer.s = timer_read(); return false; break;
-      case Z_1S: Rep.delay.s = 1000; Rep.timer.s = timer_read(); return false; break;
-      case Z_2S: Rep.delay.s = 2000; Rep.timer.s = timer_read(); return false; break;
+      case Z_S_S: Rep.delay.s = D_SHRT; Rep.timer.s = timer_read(); return false; break;
+      case Z_M_S: Rep.delay.s = D_MEDM; Rep.timer.s = timer_read(); return false; break;
+      case Z_L_S: Rep.delay.s = D_LONG; Rep.timer.s = timer_read(); return false; break;
 
-      case Z_HD: Rep.delay.d = 500;  Rep.timer.d = timer_read(); return false; break;
-      case Z_1D: Rep.delay.d = 1000; Rep.timer.d = timer_read(); return false; break;
-      case Z_2D: Rep.delay.d = 2000; Rep.timer.d = timer_read(); return false; break;
+      case Z_S_D: Rep.delay.d = D_SHRT; Rep.timer.d = timer_read(); return false; break;
+      case Z_M_D: Rep.delay.d = D_MEDM; Rep.timer.d = timer_read(); return false; break;
+      case Z_L_D: Rep.delay.d = D_LONG; Rep.timer.d = timer_read(); return false; break;
 
-      case Z_HF: Rep.delay.f = 500;  Rep.timer.f = timer_read(); return false; break;
-      case Z_1F: Rep.delay.f = 1000; Rep.timer.f = timer_read(); return false; break;
-      case Z_2F: Rep.delay.f = 2000; Rep.timer.f = timer_read(); return false; break;
-      case Z_3F: Rep.delay.f = 3000; Rep.timer.f = timer_read(); return false; break;
+      case Z_S_F: Rep.delay.f = D_SHRT; Rep.timer.f = timer_read(); return false; break;
+      case Z_M_F: Rep.delay.f = D_MEDM; Rep.timer.f = timer_read(); return false; break;
+      case Z_L_F: Rep.delay.f = D_LONG; Rep.timer.f = timer_read(); return false; break;
+
 
     }
   }

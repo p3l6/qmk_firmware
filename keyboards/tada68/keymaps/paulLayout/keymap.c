@@ -12,6 +12,7 @@ enum custom_keycodes {
     Z_NSSTR = SAFE_RANGE,
     Z_NSLOG,
     Z_ATQOT,
+    Z_PRINT,
     Z_ARROW,
     Z_STCMT,
     Z_ENCMT,
@@ -28,11 +29,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,   KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,  KC_LBRC, KC_RBRC, KC_BSLS, KC_DEL, \
   MO(_FL),   KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,   KC_L, KC_SCLN, KC_QUOT,     KC_ENT,   LT(_FL,KC_PGUP),  \
   KC_LSFT,     KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,  KC_COMM, KC_DOT, KC_SLSH,      KC_RSFT, KC_UP,  KC_PGDN, \
-  KC_LCTL, KC_LALT, KC_LGUI,                KC_SPC,                      KC_RGUI, KC_RCTL, KC_NO, KC_LEFT, KC_DOWN, KC_RGHT),
+  KC_LCTL, KC_LALT, KC_LGUI,                KC_SPC,                      KC_RGUI, KC_RCTL,LGUI(KC_H), KC_LEFT, KC_DOWN, KC_RGHT),
 
 [_FL] = LAYOUT_ansi(
   KC_ESC, KC_F1 ,KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,    KC_GRV,         KC_HOME ,  \
-  KC_BSPC,KC_SLCK, KC_PAUS,LCTL(KC_UP),_______,BL_TOGG,BL_DEC,BL_INC,_______,_______,_______,Z_STCMT,Z_ENCMT, Z_SFRMT, KC_END, \
+  KC_BSPC,KC_SLCK, KC_PAUS,LCTL(KC_UP),_______,BL_TOGG,BL_DEC,BL_INC,_______,_______,Z_PRINT,Z_STCMT,Z_ENCMT, Z_SFRMT, KC_END, \
   _______,KC_MUTE, KC_VOLD, KC_VOLU, LGUI(LSFT(KC_LBRC)),LCTL(KC_LEFT),LCTL(KC_RGHT),LGUI(LSFT(KC_RBRC)),_______,Z_NSLOG,Z_PARAM, Z_ATQOT,    KC_PENT,    _______, \
   KC_CAPS,KC_MRWD, KC_MPLY, KC_MFFD, _______,_______,Z_NSSTR,_______,_______,Z_ARROW,_______,         KC_BTN1,KC_MS_U,KC_BTN2, \
   _______,_______, _______,                          KC_ENT,     _______,  KC_NO,  KC_NO,         KC_MS_L,KC_MS_D,KC_MS_R),
@@ -58,6 +59,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false; break;
       case Z_ATQOT:
         SEND_STRING("@\"%@\",");
+        return false; break;
+      case Z_PRINT:
+        SEND_STRING("print(\"\")"SS_TAP(X_LEFT)SS_TAP(X_LEFT));
         return false; break;
       case Z_ARROW:
         SEND_STRING("->");

@@ -39,7 +39,13 @@
 
 #define RGB_DI_PIN B1
 #ifdef RGB_DI_PIN
-#define RGBLIGHT_ANIMATIONS
+
+// #define RGBLIGHT_ANIMATIONS Lets only use some of them (Static_Light is always enabled)
+#define RGBLIGHT_EFFECT_BREATHING       // 4 options
+#define RGBLIGHT_EFFECT_RAINBOW_MOOD    // 3 options
+#define RGBLIGHT_EFFECT_STATIC_GRADIENT // 10 options
+#define RGBLIGHT_EFFECT_ALTERNATING     // 1 option
+
 #define RGBLED_NUM 6
 #define RGBLIGHT_HUE_STEP 8
 #define RGBLIGHT_SAT_STEP 8

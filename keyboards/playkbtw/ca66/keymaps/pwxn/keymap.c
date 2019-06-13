@@ -26,10 +26,6 @@ enum custom_keycodes {
 #define XXXXXXX KC_NO // this represents an optional layout that has no physical key
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  // Light bar!
-  // show dots for caps, num layer, function layer?
-  // Cant have it show the layer, and have the rgb settings on a layer...
-
   // Had to pull from master to get backlighting to work, it still flickers a bit on the lowest mode.
   // Something to do with the software PWM, maybe more changes are coming
 
@@ -50,8 +46,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX,          _______, _______,          XXXXXXX,          KC_ENT,           XXXXXXX,          _______, KC_NO,    KC_MS_L, KC_MS_D, KC_MS_R),
 
 [_NL] = LAYOUT(
-    RGB_TOG,          RGB_MOD, RGB_HUD, RGB_HUI, _______, _______, _______, KC_PSLS, KC_PAST, KC_PMNS, _______, _______,  _______, _______, XXXXXXX, _______,
-    RGB_SAD,          RGB_SAI, RGB_VAD, RGB_VAI, _______, _______, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, _______, _______,  _______, _______,          _______,
+    RGB_TOG,          RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, KC_PSLS, KC_PAST, KC_PMNS, _______, _______,  _______, _______, XXXXXXX, _______,
+    RGB_MOD,          RGB_HUD, RGB_SAD, RGB_VAD, _______, _______, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, _______, _______,  _______, _______,          _______,
     _______,          _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, _______, _______,           _______,          _______,
     _______, XXXXXXX, KC_F16,  KC_F17,  KC_F18,  KC_F19,  _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, _______, _______,           _______,          _______,
     XXXXXXX,          _______, _______,          XXXXXXX,          KC_P0,            XXXXXXX,          KC_PDOT, _______,  _______, _______, _______),
@@ -99,25 +95,34 @@ void matrix_init_user() {
   backlight_disable();
 }
 
+#define HSV_OFF 0,   0,   0
+
 void led_set_user(uint8_t usb_led) {
-
   /*
-
+  //! caps lock light isn't working. Maybe wrong pin in configure, or wrong DDR or PORT here.
   if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
 		DDRD |= (1 << 1); PORTD &= ~(1 << 1);
 	} else {
 		DDRD &= ~(1 << 1); PORTD &= ~(1 << 1);
 	}
-
  */
 
+  bool caps = (usb_led & (1 << USB_LED_CAPS_LOCK)) ;
+  bool func = (layer_state & (1<<_FL));
+  bool num = (layer_state & (1<<_NL));
+  bool on = caps || func || num;
 
- /// caps lock light isnt working
 
+  if ( on ) { rgblight_enable_noeeprom(); rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); } else { rgblight_disable_noeeprom(); return; }
 
-	if ( (usb_led & (1 << USB_LED_CAPS_LOCK)) || (layer_state & (1<<_NL))) {
-		DDRD |= (1 << 1); PORTD &= ~(1 << 1);
-	} else {
-		DDRD &= ~(1 << 1); PORTD &= ~(1 << 1);
-	}
+  if ( caps ) { sethsv(HSV_GREEN, (LED_TYPE *)&led[0]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[0]); }
+  sethsv(HSV_OFF, (LED_TYPE *)&led[1]);
+  if ( num  ) { sethsv(HSV_RED  , (LED_TYPE *)&led[2]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[2]); }
+  sethsv(HSV_OFF, (LED_TYPE *)&led[3]);
+  if ( func ) { sethsv(HSV_BLUE , (LED_TYPE *)&led[4]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[4]); }
+  sethsv(HSV_OFF, (LED_TYPE *)&led[5]);
+
+  if ( on ) { rgblight_set(); }
+
+  return;
 }

@@ -49,8 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RGB_TOG,          RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, KC_PSLS, KC_PAST, KC_PMNS, _______, _______,  _______, _______, XXXXXXX, _______,
     RGB_MOD,          RGB_HUD, RGB_SAD, RGB_VAD, _______, _______, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, _______, _______,  _______, _______,          _______,
     _______,          _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PENT, _______, _______,           _______,          _______,
-    _______, XXXXXXX, KC_F16,  KC_F17,  KC_F18,  KC_F19,  _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, _______, _______,           _______,          _______,
-    XXXXXXX,          _______, _______,          XXXXXXX,          KC_P0,            XXXXXXX,          KC_PDOT, _______,  _______, _______, _______),
+    _______, XXXXXXX, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, _______, KC_F16,            KC_F19,           _______,
+    XXXXXXX,          _______, _______,          XXXXXXX,          KC_P0,            XXXXXXX,          KC_PDOT, _______,  _______, KC_F18,  KC_F17),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

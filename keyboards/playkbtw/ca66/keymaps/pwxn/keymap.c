@@ -9,6 +9,7 @@
 #define D_SPC_L LCTL(KC_LEFT)
 #define D_SPC_R LCTL(KC_RGHT)
 #define D_EXPOS LCTL(KC_UP)
+#define D_HIDE  LGUI(KC_H)
 
 enum custom_keycodes {
     Z_NSSTR = SAFE_RANGE,
@@ -16,6 +17,7 @@ enum custom_keycodes {
     Z_ATQOT,
     Z_PRINT,
     Z_ARROW,
+    Z_LGARW,
     Z_STCMT,
     Z_ENCMT,
     Z_SFRMT,
@@ -40,9 +42,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_FL] = LAYOUT(
     KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,  KC_GRV,  XXXXXXX, KC_HOME,
-    KC_BSPC,          KC_SLCK, KC_PAUS, D_EXPOS, KC_F13,  BL_TOGG, BL_DEC,  BL_INC,  _______, _______, Z_PRINT, Z_STCMT,  Z_ENCMT, Z_SFRMT,          KC_END,
+    KC_BSPC,          KC_SLCK, KC_PAUS, D_EXPOS, KC_F13,  BL_TOGG, BL_DEC,  BL_INC,  _______, _______, Z_PRINT, Z_STCMT,  Z_ENCMT, D_HIDE,           KC_END,
     _______,          KC_MUTE, KC_VOLD, KC_VOLU, D_TAB_L, D_SPC_L, D_SPC_R, D_TAB_R, _______, Z_NSLOG, Z_PARAM, Z_ATQOT,           KC_PENT,          _______,
-    KC_CAPS, XXXXXXX, KC_MRWD, KC_MPLY, KC_MFFD, _______, _______, Z_NSSTR, _______, _______, Z_ARROW, _______, KC_BTN1,           KC_MS_U,          KC_BTN2,
+    KC_CAPS, XXXXXXX, KC_MRWD, KC_MPLY, KC_MFFD, _______, _______, Z_NSSTR, _______, Z_ARROW, Z_LGARW, _______, KC_BTN1,           KC_MS_U,          KC_BTN2,
     XXXXXXX,          _______, _______,          XXXXXXX,          KC_ENT,           XXXXXXX,          _______, KC_NO,    KC_MS_L, KC_MS_D, KC_MS_R),
 
 [_NL] = LAYOUT(
@@ -70,6 +72,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("print(\"\")"SS_TAP(X_LEFT)SS_TAP(X_LEFT));
         return false; break;
       case Z_ARROW:
+        SEND_STRING("->");
+        return false; break;
+      case Z_LGARW:
         SEND_STRING("=>");
         return false; break;
       case Z_STCMT:

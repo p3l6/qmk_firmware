@@ -1,31 +1,9 @@
 #include QMK_KEYBOARD_H
+#include "custom-keycodes.h"
 
 #define _BL 0
 #define _FL 1
 #define _NL 2
-
-#define D_TAB_L LGUI(LSFT(KC_LBRC))
-#define D_TAB_R LGUI(LSFT(KC_RBRC))
-#define D_SPC_L LCTL(KC_LEFT)
-#define D_SPC_R LCTL(KC_RGHT)
-#define D_EXPOS LCTL(KC_UP)
-#define D_HIDE  LGUI(KC_H)
-
-enum custom_keycodes {
-    Z_NSSTR = SAFE_RANGE,
-    Z_NSLOG,
-    Z_ATQOT,
-    Z_PRINT,
-    Z_ARROW,
-    Z_LGARW,
-    Z_STCMT,
-    Z_ENCMT,
-    Z_SFRMT,
-    Z_PARAM,
-};
-
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO // this represents an optional layout that has no physical key
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Had to pull from master to get backlighting to work, it still flickers a bit on the lowest mode.
@@ -59,36 +37,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	// See https://docs.qmk.fm/macros.html
   if (record->event.pressed) {
     switch(keycode) {
-      case Z_NSSTR:
-        SEND_STRING("NSString*");
-        return false; break;
-      case Z_NSLOG:
-        SEND_STRING("NSLog(@\"\");"SS_TAP(X_LEFT)SS_TAP(X_LEFT)SS_TAP(X_LEFT));
-        return false; break;
-      case Z_ATQOT:
-        SEND_STRING("@\"%@\",");
-        return false; break;
-      case Z_PRINT:
-        SEND_STRING("print(\"\")"SS_TAP(X_LEFT)SS_TAP(X_LEFT));
-        return false; break;
-      case Z_ARROW:
-        SEND_STRING("->");
-        return false; break;
-      case Z_LGARW:
-        SEND_STRING("=>");
-        return false; break;
-      case Z_STCMT:
-        SEND_STRING("/*");
-        return false; break;
-      case Z_ENCMT:
-        SEND_STRING("*/");
-        return false; break;
-      case Z_SFRMT:
-        SEND_STRING("\\()"SS_TAP(X_LEFT));
-        return false; break;
-      case Z_PARAM:
-        SEND_STRING(":()"SS_TAP(X_LEFT));
-        return false; break;
+      case Z_NSSTR: DEF_NSSTR return false; break;
+      case Z_NSLOG: DEF_NSLOG return false; break;
+      case Z_ATQOT: DEF_ATQOT return false; break;
+      case Z_PRINT: DEF_PRINT return false; break;
+      case Z_ARROW: DEF_ARROW return false; break;
+      case Z_LGARW: DEF_LGARW return false; break;
+      case Z_STCMT: DEF_STCMT return false; break;
+      case Z_ENCMT: DEF_ENCMT return false; break;
+      case Z_SFRMT: DEF_SFRMT return false; break;
+      case Z_PARAM: DEF_PARAM return false; break;
+      case Z_JSSTR: DEF_JSSTR return false; break;
     }
   }
   return true;

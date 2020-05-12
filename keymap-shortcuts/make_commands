@@ -1,7 +1,16 @@
-make tada68:paulLayout:bin
+#!/bin/bash
+
+set -e
+
+# This file is mostly a reference
+# However, it is executable to quickly check that all boards still compile
+
+make tada68:pwxn:bin
 make 40percentclub/foobarMacro:default
 make 40percentclub/foobarMacro:diablo
 make 40percentclub/gherkin:ePipes
 make 40percentclub/gherkin:paulLayout
+
 make paulKeyboard:default
+
 make playkbtw/ca66:pwxn

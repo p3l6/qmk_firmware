@@ -9,7 +9,6 @@ make tada68:pwxn:bin
 make 40percentclub/foobarMacro:default
 make 40percentclub/foobarMacro:diablo
 make 40percentclub/gherkin:ePipes
-make 40percentclub/gherkin:paulLayout
 
 make paulKeyboard:default
 

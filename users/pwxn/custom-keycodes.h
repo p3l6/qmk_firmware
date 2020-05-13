@@ -1,3 +1,5 @@
+#ifndef USERSPACE
+#define USERSPACE
 
 #define _______ KC_TRNS // a key transparent to the layer below
 #define XXXXXXX KC_NO   // a key phisically missing
@@ -39,3 +41,7 @@ enum custom_keycodes {
 #define DEF_SFRMT SEND_STRING("\\()"SS_TAP(X_LEFT));
 #define DEF_PARAM SEND_STRING(":()"SS_TAP(X_LEFT));
 #define DEF_JSSTR SEND_STRING("``"SS_TAP(X_LEFT)"${}"SS_TAP(X_LEFT));
+
+#define CASE(macro) case Z_##macro: DEF_##macro return false; break;
+
+#endif

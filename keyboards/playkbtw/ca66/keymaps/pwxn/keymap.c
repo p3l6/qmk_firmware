@@ -37,17 +37,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	// See https://docs.qmk.fm/macros.html
   if (record->event.pressed) {
     switch(keycode) {
-      case Z_NSSTR: DEF_NSSTR return false; break;
-      case Z_NSLOG: DEF_NSLOG return false; break;
-      case Z_ATQOT: DEF_ATQOT return false; break;
-      case Z_PRINT: DEF_PRINT return false; break;
-      case Z_ARROW: DEF_ARROW return false; break;
-      case Z_LGARW: DEF_LGARW return false; break;
-      case Z_STCMT: DEF_STCMT return false; break;
-      case Z_ENCMT: DEF_ENCMT return false; break;
-      case Z_SFRMT: DEF_SFRMT return false; break;
-      case Z_PARAM: DEF_PARAM return false; break;
-      case Z_JSSTR: DEF_JSSTR return false; break;
+      CASE(NSSTR) CASE(NSLOG)
+      CASE(ATQOT) CASE(PRINT) CASE(SFRMT) CASE(PARAM) CASE(JSSTR)
+      CASE(ARROW) CASE(LGARW)
+      CASE(STCMT) CASE(ENCMT)
     }
   }
   return true;

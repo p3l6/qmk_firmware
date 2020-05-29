@@ -15,3 +15,5 @@ make 40percentclub/gherkin:ePipes
 make paulKeyboard:default
 
 make playkbtw/ca66:pwxn
+
+make dz60:pwxn

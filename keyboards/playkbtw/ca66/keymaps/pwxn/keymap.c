@@ -6,10 +6,7 @@
 #define _ML 2
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  // Had to pull from master to get backlighting to work, it still flickers a bit on the lowest mode.
-  // Something to do with the software PWM, maybe more changes are coming
-
-  // caps lock led not working
+  // Backlighting is just weird. Since I don't use it, I've disabled it for now.
 
   /* Light bar control keys:
      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI,
@@ -51,35 +48,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void matrix_init_user() {
-  // when plugged in, qmk thinks it is off, but the board has it on. Sync this up, ending with off.
-  backlight_enable();
-  backlight_disable();
-}
-
 #define HSV_OFF 0,   0,   0
 
 void led_set_user(uint8_t usb_led) {
-  /*
-  //! caps lock light isn't working. Maybe wrong pin in configure, or wrong DDR or PORT here.
-  if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-		DDRD |= (1 << 1); PORTD &= ~(1 << 1);
-	} else {
-		DDRD &= ~(1 << 1); PORTD &= ~(1 << 1);
-	}
- */
-
   bool caps = (usb_led & (1 << USB_LED_CAPS_LOCK)) ;
   bool nav = (layer_state & (1<<_NL));
   bool media = (layer_state & (1<<_ML));
   bool on = caps || nav || media;
 
-
   if ( on ) { rgblight_enable_noeeprom(); rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT); } else { rgblight_disable_noeeprom(); return; }
 
-  if ( caps ) { sethsv(HSV_GREEN, (LED_TYPE *)&led[0]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[0]); }
+  if ( nav ) { sethsv(HSV_GREEN, (LED_TYPE *)&led[0]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[0]); }
   sethsv(HSV_OFF, (LED_TYPE *)&led[1]);
-  if ( nav  ) { sethsv(HSV_RED  , (LED_TYPE *)&led[2]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[2]); }
+  if ( caps ) { sethsv(HSV_RED  , (LED_TYPE *)&led[2]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[2]); }
   sethsv(HSV_OFF, (LED_TYPE *)&led[3]);
   if ( media ) { sethsv(HSV_BLUE , (LED_TYPE *)&led[4]); } else { sethsv(HSV_OFF, (LED_TYPE *)&led[4]); }
   sethsv(HSV_OFF, (LED_TYPE *)&led[5]);
